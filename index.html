@@ -7,7 +7,14 @@
 <style>
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body { background: #0c0d0f; color: #d1d1d1; font-family: sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-#app { width: 92%; max-width: 450px; background: #151719; border: 1px solid #303235; padding: 30px; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative; }
+#app { width: 92%; max-width: 450px; background: #151719; border: 1px solid #303235; padding: 30px; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative; min-height: 400px; display: flex; flex-direction: column; justify-content: center; }
+/* 封面样式 */
+#cover { text-align: center; animation: fadeIn 1s; }
+#cover h1 { color: #c9a063; font-size: 1.6rem; margin-bottom: 10px; }
+#cover p { color: #888; font-size: 0.9rem; margin-bottom: 40px; }
+.start-btn { background: #c9a063; color: #000; border: none; padding: 18px 40px; font-size: 1.1rem; font-weight: bold; border-radius: 50px; cursor: pointer; transition: 0.3s; box-shadow: 0 0 20px rgba(201,160,99,0.3); }
+/* 题目样式 */
+#game { display: none; }
 .header { text-align: center; border-bottom: 1px solid #c9a06344; padding-bottom: 15px; margin-bottom: 25px; }
 .header h2 { color: #c9a063; font-size: 1rem; margin: 0; letter-spacing: 2px; }
 #q { font-size: 1.05rem; line-height: 1.6; margin-bottom: 30px; min-height: 70px; color: #fff; }
@@ -25,13 +32,21 @@ body { background: #0c0d0f; color: #d1d1d1; font-family: sans-serif; margin: 0; 
 <body>
 <div id="app">
     <div id="prog-fill"></div>
-    <div class="header"><h2>频率共鸣同步中</h2></div>
+    
+    <div id="cover">
+        <h1>频率共鸣评估</h1>
+        <p>在这个世界，你会最像哪位角色？</p>
+        <button class="start-btn" onclick="startTest()">开始连接</button>
+    </div>
+
     <div id="game">
+        <div class="header"><h2>同步中...</h2></div>
         <div id="q">载入中...</div>
         <div id="btns"></div>
     </div>
+
     <div id="res">
-        <p style="font-size:0.8rem; color:#666;">同步完成，共鸣频率趋近于：</p>
+        <p style="font-size:0.8rem; color:#666;">评估结果：</p>
         <div id="role" class="role-name"></div>
         <div id="desc" class="desc"></div>
         <div id="knife" class="knife"></div>
@@ -39,7 +54,7 @@ body { background: #0c0d0f; color: #d1d1d1; font-family: sans-serif; margin: 0; 
 </div>
 
 <script>
-// j=忌炎, l=长离, c=椿, s=守岸人, p=漂泊者, z=赞妮, f=弗洛洛, a=爱弥斯
+// 角色池：j=忌炎, l=长离, c=椿, s=守岸人, p=漂泊者, z=赞妮, f=弗洛洛, a=爱弥斯
 const questions = [
     {q: "你在一个完全陌生的地方醒来，身边只有一件必需品，你会选择：", a: ["一把能够自卫的锋利长剑", "p"], b: ["一份详细且逻辑缜密的地图", "l"]},
     {q: "当你在执行一项繁琐的重复性工作，且已经极度疲惫时，你会：", a: ["虽然满心抱怨，但还是会强撑着按时完成", "z"], b: ["冷静地思考如何通过某种手段提高效率或规避它", "f"]},
@@ -54,6 +69,12 @@ const questions = [
 ];
 
 let idx = 0, sc = {j:0, l:0, x:0, c:0, s:0, p:0, z:0, f:0, a:0};
+
+function startTest() {
+    document.getElementById('cover').style.display = 'none';
+    document.getElementById('game').style.display = 'block';
+    render();
+}
 
 function render() {
     const d = questions[idx];
@@ -85,7 +106,7 @@ function show() {
         c: ["椿", "自由之火。你拒绝束缚，热烈且迷人，只在极致的体验中寻找意义。"],
         s: ["守岸人", "静谧守望。你跨越漫长时光，在星海的尽头守望着那份唯一的契约。"],
         p: ["漂泊者", "开拓之星。你从未知中觉醒，每一步选择都在重塑这个世界的未来。"],
-        z: ["赞妮", "坚韧社畜。虽然总是睡眠不足且渴望假期，但你务实且极度可靠，是支撑秩序运行的基石。"],
+        z: ["赞妮", "坚韧社畜。黎那西塔金库防卫科的一员，虽然渴望假期，但解决问题的效率无人能敌。"],
         f: ["弗洛洛", "冷酷执行。你习惯从高位审视文明，优雅地推行你的意志，清除一切阻碍。"],
         a: ["爱弥斯", "温柔回响。你不曾离去，因为那份心碎而美丽的共鸣，已活在重要的人的记忆里。"]
     };
@@ -100,7 +121,6 @@ function show() {
         document.getElementById('knife').innerHTML = "“漂泊者，你看...我变成你此时此刻的一点点心痛了。这就是我存在的证明，对吗？”";
     }
 }
-render();
 </script>
 </body>
 </html>
